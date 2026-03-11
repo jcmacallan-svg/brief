@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Letter Writing Practice A2-B1</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --line: #dbe3ee;
+        --accent: #2563eb;
+        --accent-dark: #1d4ed8;
+        --good: #047857;
+        --warn: #b45309;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      }
+
+      h1, h2, h3 { margin-top: 0; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.35rem; }
+      h3 { font-size: 1.05rem; }
+
+      p, li { line-height: 1.55; }
+
+      .grid {
+        display: grid;
+        gap: 20px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media (max-width: 900px) {
+        .two-col { grid-template-columns: 1fr; }
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      input, textarea, select, button {
+        width: 100%;
+        font: inherit;
+      }
+
+      input, textarea, select {
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      textarea {
+        min-height: 260px;
+        resize: vertical;
+      }
+
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 13px 16px;
+        font-weight: 700;
+        cursor: pointer;
+        background: var(--accent);
+        color: #fff;
+      }
+
+      button:hover { background: var(--accent-dark); }
+
+      .secondary {
+        background: #eef2ff;
+        color: #1e3a8a;
+      }
+
+      .secondary:hover {
+        background: #dbeafe;
+      }
+
+      .muted { color: var(--muted); }
+      .hidden { display: none; }
+
+      .pill {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+
+      .feedback-box {
+        border-left: 5px solid var(--accent);
+        background: #f8fbff;
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .score {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--good);
+      }
+
+      .small {
+        font-size: 0.92rem;
+      }
+
+      .checklist li { margin-bottom: 8px; }
+
+      .status {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #f9fafb;
+        border: 1px solid var(--line);
+      }
+
+      .good { color: var(--good); }
+      .warn { color: var(--warn); }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .task-meta {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 12px;
+      }
+
+      @media (max-width: 700px) {
+        .task-meta { grid-template-columns: 1fr; }
+      }
+
+      .meta-card {
+        background: #f8fafc;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      code {
+        background: #eef2ff;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container grid">
+      <section class="card" id="loginCard">
+        <h1>English Email Writing Practice</h1>
+        <p class="muted">
+          Deze oefening toont na het inloggen één schrijfopdracht op A2-B1 niveau.
+          De student schrijft een e-mail in het Engels, krijgt meteen feedback,
+          en kan het resultaat daarna automatisch doorsturen.
+        </p>
+
+        <div class="grid two-col">
+          <div>
+            <label for="studentName">Naam student</label>
+            <input id="studentName" type="text" placeholder="Bijv. Sara Jansen" />
+          </div>
+          <div>
+            <label for="studentEmail">E-mailadres student</label>
+            <input id="studentEmail" type="email" placeholder="student@email.com" />
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <label for="taskMode">Manier van opdracht kiezen</label>
+          <select id="taskMode">
+            <option value="random">Willekeurige opdracht</option>
+            <option value="rotation">Volgende opdracht in vaste rotatie</option>
+          </select>
+        </div>
+
+        <div style="margin-top:16px;">
+          <button id="startBtn">Start oefening</button>
+        </div>
+
+        <div class="status small" style="margin-top:18px;">
+          <strong>Belangrijk voor e-mail doorsturen:</strong><br />
+          Deze pagina werkt direct op GitHub Pages voor de opdrachten en feedback.
+          Het automatisch mailen naar jouw adres werkt alleen nadat je hieronder in de code
+          een extern formulierendpoint koppelt, bijvoorbeeld <code>Formspree</code> of een
+          <code>Google Apps Script</code> webhook. Zonder zo'n koppeling blijft alles lokaal in de browser.
+        </div>
+      </section>
+
+      <section class="card hidden" id="exerciseCard">
+        <div class="topbar">
+          <div>
+            <div class="pill" id="levelBadge">Level A2-B1</div>
+            <h2 id="taskTitle">Task title</h2>
+            <p class="muted" id="welcomeLine"></p>
+          </div>
+          <div>
+            <button class="secondary" id="newTaskBtn" type="button">Nieuwe opdracht</button>
+          </div>
+        </div>
+
+        <div class="task-meta">
+          <div class="meta-card">
+            <strong>Situation</strong>
+            <p id="taskSituation"></p>
+          </div>
+          <div class="meta-card">
+            <strong>Write to</strong>
+            <p id="taskAudience"></p>
+          </div>
+          <div class="meta-card">
+            <strong>You must include</strong>
+            <ul id="taskChecklist" class="checklist"></ul>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;">
+          <label for="emailText">Write your email in English</label>
+          <textarea id="emailText" placeholder="Write your email here..."></textarea>
+        </div>
+
+        <div class="grid two-col" style="margin-top:16px;">
+          <button id="feedbackBtn" type="button">Check my email</button>
+          <button id="sendBtn" type="button" class="secondary">Mail result to teacher</button>
+        </div>
+
+        <div id="feedbackSection" class="hidden" style="margin-top:20px;">
+          <h3>Feedback</h3>
+          <div class="feedback-box">
+            <div class="score" id="scoreLine">0/10</div>
+            <div id="feedbackContent"></div>
+          </div>
+        </div>
+
+        <div id="sendStatus" class="status hidden"></div>
+      </section>
+    </div>
+
+    <script>
+      const tasks = [
+        {
+          id: 1,
+          title: 'Email to your teacher about homework',
+          situation: 'You were sick yesterday and you could not finish your homework.',
+          audience: 'your English teacher',
+          checklist: [
+            'say why you are writing',
+            'explain why the homework is late',
+            'ask for one more day',
+            'end the email politely'
+          ],
+          keywords: ['homework', 'late', 'sick', 'tomorrow', 'teacher']
+        },
+        {
+          id: 2,
+          title: 'Email to a hotel',
+          situation: 'You want to stay in London for two nights with one friend next month.',
+          audience: 'a hotel receptionist',
+          checklist: [
+            'say the dates',
+            'ask about the price',
+            'ask if breakfast is included',
+            'ask if there is a room for two people'
+          ],
+          keywords: ['hotel', 'room', 'price', 'breakfast', 'two']
+        },
+        {
+          id: 3,
+          title: 'Email to a friend about a birthday party',
+          situation: 'You want to invite your friend to your birthday party next Saturday.',
+          audience: 'your friend',
+          checklist: [
+            'invite your friend',
+            'say where the party is',
+            'say what time it starts',
+            'ask your friend to reply'
+          ],
+          keywords: ['party', 'Saturday', 'come', 'start', 'reply']
+        },
+        {
+          id: 4,
+          title: 'Email to a sports club',
+          situation: 'You want to join a local sports club and need more information.',
+          audience: 'the sports club office',
+          checklist: [
+            'say which sport you like',
+            'ask about the schedule',
+            'ask about the membership cost',
+            'ask how to register'
+          ],
+          keywords: ['sport', 'schedule', 'cost', 'join', 'register']
+        },
+        {
+          id: 5,
+          title: 'Email to a shop about a problem',
+          situation: 'You bought headphones online, but they do not work.',
+          audience: 'customer service',
+          checklist: [
+            'say what you bought',
+            'explain the problem',
+            'say when you bought it',
+            'ask for a solution such as a new product or refund'
+          ],
+          keywords: ['headphones', 'problem', 'bought', 'refund', 'replace']
+        },
+        {
+          id: 6,
+          title: 'Email to ask for volunteer work',
+          situation: 'You want to help at an animal shelter during the summer holiday.',
+          audience: 'the animal shelter manager',
+          checklist: [
+            'introduce yourself',
+            'say when you are available',
+            'say why you want to help',
+            'ask what jobs volunteers can do'
+          ],
+          keywords: ['volunteer', 'animal', 'summer', 'help', 'available']
+        }
+      ];
+
+      const MAIL_ENDPOINT = '';
+
+      const loginCard = document.getElementById('loginCard');
+      const exerciseCard = document.getElementById('exerciseCard');
+      const startBtn = document.getElementById('startBtn');
+      const newTaskBtn = document.getElementById('newTaskBtn');
+      const feedbackBtn = document.getElementById('feedbackBtn');
+      const sendBtn = document.getElementById('sendBtn');
+      const feedbackSection = document.getElementById('feedbackSection');
+      const feedbackContent = document.getElementById('feedbackContent');
+      const scoreLine = document.getElementById('scoreLine');
+      const sendStatus = document.getElementById('sendStatus');
+
+      let currentTask = null;
+      let currentFeedback = null;
+      let currentScore = 0;
+
+      function chooseTask(mode) {
+        if (mode === 'rotation') {
+          const currentIndex = Number(localStorage.getItem('emailTaskRotationIndex') || '0');
+          const task = tasks[currentIndex % tasks.length];
+          localStorage.setItem('emailTaskRotationIndex', String((currentIndex + 1) % tasks.length));
+          return task;
+        }
+        return tasks[Math.floor(Math.random() * tasks.length)];
+      }
+
+      function renderTask(task) {
+        currentTask = task;
+        document.getElementById('taskTitle').textContent = task.title;
+        document.getElementById('taskSituation').textContent = task.situation;
+        document.getElementById('taskAudience').textContent = task.audience;
+        document.getElementById('taskChecklist').innerHTML = task.checklist
+          .map(item => `<li>${item}</li>`)
+          .join('');
+      }
+
+      function getStudentData() {
+        return {
+          name: document.getElementById('studentName').value.trim(),
+          email: document.getElementById('studentEmail').value.trim(),
+          text: document.getElementById('emailText').value.trim()
+        };
+      }
+
+      function countWords(text) {
+        return text.trim() ? text.trim().split(/\s+/).length : 0;
+      }
+
+      function includesGreeting(text) {
+        return /(^|\n)\s*(dear|hello|hi)\b/i.test(text);
+      }
+
+      function includesClosing(text) {
+        return /(kind regards|best regards|yours sincerely|yours faithfully|see you|best wishes|regards)/i.test(text);
+      }
+
+      function sentenceCount(text) {
+        const matches = text.match(/[.!?]+/g);
+        return matches ? matches.length : 0;
+      }
+
+      function grammarHints(text) {
+        const hints = [];
+
+        if (/\bi am agree\b/i.test(text)) hints.push('Use <em>I agree</em>, not <em>I am agree</em>.');
+        if (/\bI have \d+ years\b/i.test(text)) hints.push('For age, write <em>I am ... years old</em>.');
+        if (/\bcan to\b/i.test(text)) hints.push('After <em>can</em>, use the verb without <em>to</em>.');
+        if (/\bmore easier\b/i.test(text)) hints.push('Use <em>easier</em>, not <em>more easier</em>.');
+        if (/\bhe don\'t\b|\bshe don\'t\b/i.test(text)) hints.push('Write <em>he doesn\'t</em> or <em>she doesn\'t</em>.');
+        if (/\byesterday\b/i.test(text) && /\bgo\b/i.test(text) && !/\bwent\b/i.test(text)) hints.push('If you write about yesterday, check if you need a past tense form such as <em>went</em>.');
+
+        return hints;
+      }
+
+      function analyseEmail(task, text) {
+        const words = countWords(text);
+        const lower = text.toLowerCase();
+        const positives = [];
+        const improvements = [];
+        let score = 0;
+
+        if (words >= 45 && words <= 140) {
+          score += 2;
+          positives.push('Good length for an A2-B1 email.');
+        } else if (words > 0) {
+          improvements.push('Try to write about 45 to 140 words.');
+        }
+
+        if (includesGreeting(text)) {
+          score += 1;
+          positives.push('You started with a greeting.');
+        } else {
+          improvements.push('Start your email with a greeting such as <em>Dear Ms Brown</em> or <em>Hello Tom</em>.');
+        }
+
+        if (includesClosing(text)) {
+          score += 1;
+          positives.push('You ended the email politely.');
+        } else {
+          improvements.push('Finish with a polite closing such as <em>Best regards</em> or <em>See you soon</em>.');
+        }
+
+        if (sentenceCount(text) >= 3) {
+          score += 1;
+          positives.push('Your email has several complete sentences.');
+        } else {
+          improvements.push('Write at least 3 full sentences.');
+        }
+
+        let checklistHits = 0;
+        task.keywords.forEach(word => {
+          if (lower.includes(word.toLowerCase())) checklistHits += 1;
+        });
+
+        const checklistScore = Math.min(4, Math.round((checklistHits / task.keywords.length) * 4));
+        score += checklistScore;
+
+        if (checklistScore >= 3) {
+          positives.push('You included most important content points from the task.');
+        } else {
+          improvements.push('Check the task again and include more of the required information.');
+        }
+
+        const grammar = grammarHints(text);
+        if (grammar.length === 0) {
+          score += 1;
+          positives.push('No common basic grammar problems were detected.');
+        } else {
+          improvements.push(...grammar);
+        }
+
+        if (/\bplease\b/i.test(text)) {
+          positives.push('Using <em>please</em> makes your email sound polite.');
+        }
+
+        if (score > 10) score = 10;
+
+        const finalFeedback = `
+          <p><strong>What went well</strong></p>
+          <ul>${positives.map(item => `<li>${item}</li>`).join('') || '<li>You wrote a response and that is a good start.</li>'}</ul>
+          <p><strong>How to improve</strong></p>
+          <ul>${improvements.map(item => `<li>${item}</li>`).join('') || '<li>Your email meets the task well. Try using one or two longer linking words next time, for example <em>because</em>, <em>so</em> or <em>but</em>.</li>'}</ul>
+          <p><strong>Teacher note</strong><br />This is automatic feedback based on length, structure, task words and common A2-B1 patterns. It is useful for practice, but it is not the same as full teacher marking.</p>
+        `;
+
+        return { score, finalFeedback };
+      }
+
+      function requireLoginData() {
+        const { name, email } = getStudentData();
+        if (!name || !email) {
+          alert('Vul eerst naam en e-mailadres in.');
+          return false;
+        }
+        return true;
+      }
+
+      startBtn.addEventListener('click', () => {
+        if (!requireLoginData()) return;
+        const mode = document.getElementById('taskMode').value;
+        const task = chooseTask(mode);
+        renderTask(task);
+        const { name } = getStudentData();
+        document.getElementById('welcomeLine').textContent = `Student: ${name}`;
+        loginCard.classList.add('hidden');
+        exerciseCard.classList.remove('hidden');
+      });
+
+      newTaskBtn.addEventListener('click', () => {
+        const mode = document.getElementById('taskMode').value;
+        renderTask(chooseTask(mode));
+        document.getElementById('emailText').value = '';
+        feedbackSection.classList.add('hidden');
+        sendStatus.classList.add('hidden');
+        currentFeedback = null;
+        currentScore = 0;
+      });
+
+      feedbackBtn.addEventListener('click', () => {
+        const { text } = getStudentData();
+        if (!text) {
+          alert('Schrijf eerst een e-mail.');
+          return;
+        }
+
+        const result = analyseEmail(currentTask, text);
+        currentFeedback = result.finalFeedback;
+        currentScore = result.score;
+        scoreLine.textContent = `${result.score}/10`;
+        feedbackContent.innerHTML = result.finalFeedback;
+        feedbackSection.classList.remove('hidden');
+        sendStatus.classList.add('hidden');
+      });
+
+      sendBtn.addEventListener('click', async () => {
+        const { name, email, text } = getStudentData();
+
+        if (!text) {
+          alert('Schrijf eerst een e-mail.');
+          return;
+        }
+
+        if (!currentFeedback) {
+          const result = analyseEmail(currentTask, text);
+          currentFeedback = result.finalFeedback;
+          currentScore = result.score;
+          scoreLine.textContent = `${result.score}/10`;
+          feedbackContent.innerHTML = result.finalFeedback;
+          feedbackSection.classList.remove('hidden');
+        }
+
+        sendStatus.classList.remove('hidden');
+
+        if (!MAIL_ENDPOINT) {
+          sendStatus.innerHTML = `
+            <strong class="warn">Nog niet verzonden.</strong><br />
+            Vul eerst boven in de code een waarde in bij <code>MAIL_ENDPOINT</code>.
+            Daarna kan deze knop de studenttekst en feedback automatisch doorsturen naar h.blankestijn@roca12.nl.
+          `;
+          return;
+        }
+
+        const payload = {
+          teacher_email: 'h.blankestijn@roca12.nl',
+          student_name: name,
+          student_email: email,
+          assignment_title: currentTask.title,
+          situation: currentTask.situation,
+          audience: currentTask.audience,
+          required_points: currentTask.checklist.join('; '),
+          student_text: text,
+          feedback_html: currentFeedback,
+          score: currentScore,
+          submitted_at: new Date().toLocaleString(),
+          source: 'GitHub Pages Email Writing Practice'
+        };
+
+        try {
+          const response = await fetch(MAIL_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!response.ok) throw new Error('Network response was not OK');
+
+          sendStatus.innerHTML = `
+            <strong class="good">Verzonden.</strong><br />
+            De e-mailtekst en de automatische feedback zijn doorgestuurd naar h.blankestijn@roca12.nl.
+          `;
+        } catch (error) {
+          sendStatus.innerHTML = `
+            <strong class="warn">Verzenden is mislukt.</strong><br />
+            Controleer of jouw formulierendpoint goed staat ingesteld en POST-verzoeken accepteert.
+          `;
+        }
+      });
+    </script>
+  </body>
+</html>
