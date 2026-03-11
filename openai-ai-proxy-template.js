@@ -1,19 +1,7 @@
 /**
  * Example Node / serverless proxy for AI feedback.
- *
- * IMPORTANT:
- * - Keep OPENAI_API_KEY on the server only.
- * - Do NOT place your API key inside index.html or any browser code.
- *
- * Expected POST body:
- * {
- *   task: {...},
- *   student_text: "...",
- *   expected_formality: "formal" | "informal",
- *   local_result: {...}
- * }
+ * Keep OPENAI_API_KEY on the server only.
  */
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -23,6 +11,7 @@ export default async function handler(req, res) {
   try {
     const body = req.body || {};
     const apiKey = process.env.OPENAI_API_KEY;
+
     if (!apiKey) {
       res.status(500).json({ error: 'Missing OPENAI_API_KEY' });
       return;
@@ -49,11 +38,6 @@ overall_comment
 strengths
 improvements
 corrected_email
-
-Rules:
-- Focus on spelling, grammar, tone, task completion, salutation and sign-off.
-- Keep corrected_email simple and realistic for A2-B1.
-- Do not over-correct into C1/C2 language.
 `;
 
     const response = await fetch('https://api.openai.com/v1/responses', {
@@ -73,32 +57,16 @@ Rules:
             role: 'user',
             content: prompt
           }
-        ],
-        text: {
-          format: {
-            type: 'json_schema',
-            name: 'email_feedback',
-            schema: {
-              type: 'object',
-              additionalProperties: false,
-              properties: {
-                overall_comment: { type: 'string' },
-                strengths: { type: 'array', items: { type: 'string' } },
-                improvements: { type: 'array', items: { type: 'string' } },
-                corrected_email: { type: 'string' }
-              },
-              required: ['overall_comment', 'strengths', 'improvements', 'corrected_email']
-            }
-          }
-        }
+        ]
       })
     });
 
     const data = await response.json();
+    const outputText = data.output_text || '';
 
-    let parsed = null;
+    let parsed;
     try {
-      parsed = JSON.parse(data.output_text);
+      parsed = JSON.parse(outputText);
     } catch (e) {
       parsed = {
         overall_comment: 'AI feedback was returned in an unexpected format.',
