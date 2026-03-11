@@ -1,227 +1,719 @@
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Email Writing Practice A2-B1</title>
-
-<style>
-body {
-font-family: Arial, sans-serif;
-background:#f4f6fb;
-margin:0;
-padding:0;
-}
-
-.container {
-max-width:1000px;
-margin:auto;
-padding:30px;
-}
-
-.card {
-background:white;
-border-radius:14px;
-padding:20px;
-box-shadow:0 6px 20px rgba(0,0,0,0.08);
-margin-bottom:20px;
-}
-
-textarea {
-width:100%;
-height:260px;
-padding:12px;
-font-size:16px;
-}
-
-button {
-padding:12px 18px;
-border:none;
-border-radius:10px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-}
-
-button:hover {
-background:#1e4fd1;
-}
-
-.feedback {
-background:#f0f6ff;
-border-left:5px solid #2563eb;
-padding:15px;
-margin-top:20px;
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Email Writing Practice — AI Feedback</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --line:#dbe3ee;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent2:#e8f0ff;
+      --good:#047857;
+      --warn:#b45309;
+      --bad:#b91c1c;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(15,23,42,.06);margin-bottom:20px}
+    h1,h2,h3{margin-top:0}
+    p,li{line-height:1.5}
+    .grid{display:grid;gap:16px}
+    .two{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){.two,.three{grid-template-columns:1fr}}
+    label{display:block;font-weight:700;margin-bottom:8px}
+    input,select,textarea,button{width:100%;font:inherit}
+    input,select,textarea{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff}
+    textarea{min-height:280px;resize:vertical}
+    button{border:0;border-radius:12px;padding:13px 16px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff}
+    button:hover{filter:brightness(.96)}
+    .secondary{background:#eef2ff;color:#1e3a8a}
+    .hidden{display:none}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--accent2);color:#1d4ed8;font-size:.92rem;margin-bottom:8px}
+    .muted{color:var(--muted)}
+    .meta{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .scorebox{background:#f8fbff;border-left:5px solid var(--accent);padding:16px;border-radius:12px}
+    .scorebig{font-size:2rem;font-weight:800;color:var(--good)}
+    .rubric{width:100%;border-collapse:collapse;margin-top:12px}
+    .rubric th,.rubric td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+    .rubric th{background:#f8fafc}
+    .ok{color:var(--good);font-weight:700}
+    .warn{color:var(--warn);font-weight:700}
+    .bad{color:var(--bad);font-weight:700}
+    .small{font-size:.93rem}
+    code{background:#eef2ff;padding:2px 6px;border-radius:6px}
+    .status{margin-top:12px;padding:12px 14px;border-radius:12px;background:#f9fafb;border:1px solid var(--line)}
+    .example{background:#fff7ed;border-left:4px solid #fb923c;padding:10px 12px;border-radius:10px}
+  </style>
 </head>
-
 <body>
+<div class="wrap">
+  <section class="card" id="loginCard">
+    <h1>English Email Writing Practice</h1>
+    <p class="muted">
+      Deze versie geeft uitgebreidere feedback met punten per onderdeel, controle op veelgemaakte fouten,
+      en optionele AI-feedback voor spelling, grammatica en inhoud.
+    </p>
 
-<div class="container">
+    <div class="grid two">
+      <div>
+        <label for="studentName">Naam student</label>
+        <input id="studentName" type="text" placeholder="Bijv. Sara Jansen" />
+      </div>
+      <div>
+        <label for="studentEmail">E-mailadres student</label>
+        <input id="studentEmail" type="email" placeholder="student@email.com" />
+      </div>
+    </div>
 
-<div class="card">
-<h2>English Email Writing Practice (A2-B1)</h2>
+    <div class="grid two" style="margin-top:16px;">
+      <div>
+        <label for="taskMode">Opdrachtkeuze</label>
+        <select id="taskMode">
+          <option value="rotation">Volgende opdracht in vaste rotatie</option>
+          <option value="random">Willekeurige opdracht</option>
+        </select>
+      </div>
+      <div>
+        <label for="formality">Toon van de e-mail</label>
+        <select id="formality">
+          <option value="formal">Formal</option>
+          <option value="informal">Informal</option>
+        </select>
+      </div>
+    </div>
 
-<label>Naam student</label>
-<input id="studentName">
+    <div class="status small" style="margin-top:18px;">
+      <strong>Belangrijk:</strong><br />
+      Deze pagina werkt direct op GitHub Pages voor opdrachten, puntentelling en lokale feedback.
+      Voor echte AI-feedback heb je een apart server-endpoint nodig. Zet later jouw URL in <code>AI_ENDPOINT</code>.
+      Voor automatisch mailen naar de docent gebruik je <code>MAIL_ENDPOINT</code>.
+    </div>
 
-<label>Email student</label>
-<input id="studentEmail">
+    <div style="margin-top:16px;">
+      <button id="startBtn" type="button">Start oefening</button>
+    </div>
+  </section>
 
-<button onclick="start()">Start</button>
-</div>
+  <section class="card hidden" id="exerciseCard">
+    <div class="pill">A2-B1 Email Writing</div>
+    <h2 id="taskTitle"></h2>
+    <p class="muted" id="welcomeLine"></p>
 
-<div id="exercise" class="card" style="display:none;">
+    <div class="grid three">
+      <div class="meta">
+        <strong>Situation</strong>
+        <p id="taskSituation"></p>
+      </div>
+      <div class="meta">
+        <strong>Write to</strong>
+        <p id="taskAudience"></p>
+      </div>
+      <div class="meta">
+        <strong>Email type</strong>
+        <p id="taskType"></p>
+      </div>
+    </div>
 
-<h3 id="title"></h3>
-<p id="situation"></p>
+    <div class="meta" style="margin-top:16px;">
+      <strong>6 required parts</strong>
+      <ul id="taskChecklist"></ul>
+      <p class="small muted">Minimaal 80% behandelen = minstens 5 van de 6 onderdelen.</p>
+    </div>
 
-<ul id="points"></ul>
+    <div class="example" style="margin-top:16px;">
+      <strong>Reminder for structure</strong><br />
+      Greeting → short opening sentence → content points → closing sentence →
+      final sign-off → your name
+    </div>
 
-<textarea id="text"></textarea>
+    <div style="margin-top:18px;">
+      <label for="emailText">Write your email in English</label>
+      <textarea id="emailText" placeholder="Write your email here..."></textarea>
+    </div>
 
-<button onclick="checkEmail()">Check email</button>
+    <div class="grid two" style="margin-top:16px;">
+      <button id="feedbackBtn" type="button">Check my email</button>
+      <button id="sendBtn" type="button" class="secondary">Send result to teacher</button>
+    </div>
 
-<div id="feedback" class="feedback"></div>
+    <div id="feedbackSection" class="hidden" style="margin-top:20px;">
+      <div class="scorebox">
+        <div class="scorebig" id="scoreLine">0/20</div>
+        <div id="feedbackSummary"></div>
+      </div>
 
-</div>
+      <h3 style="margin-top:18px;">Points per part</h3>
+      <table class="rubric">
+        <thead>
+          <tr><th>Part</th><th>Points</th><th>Feedback</th></tr>
+        </thead>
+        <tbody id="rubricBody"></tbody>
+      </table>
 
+      <div id="aiSection" class="hidden">
+        <h3 style="margin-top:18px;">AI feedback</h3>
+        <div class="meta" id="aiFeedbackBox"></div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <h3>Detected issues</h3>
+        <div class="meta" id="issuesBox"></div>
+      </div>
+    </div>
+
+    <div id="sendStatus" class="status hidden"></div>
+  </section>
 </div>
 
 <script>
+const TEACHER_EMAIL = 'h.blankestijn@roca12.nl';
+const MAIL_ENDPOINT = '';
+const AI_ENDPOINT = '';
 
 const tasks = [
-{
-title:"Email to teacher about homework",
-situation:"You were sick and could not finish your homework.",
-points:["Explain sickness","Mention homework","Ask for one extra day","Apologise","Say when you will finish","End politely"]
-},
+  {
+    id: 1,
+    title: 'Email to your teacher about homework',
+    situation: 'You were sick yesterday and could not finish your homework.',
+    audience: 'your English teacher',
+    type: 'formal',
+    parts: [
+      {label:'Reason for writing', hints:['i am writing', 'i write', 'because', 'about my homework']},
+      {label:'Explain you were sick / absent', hints:['sick', 'ill', 'not at school', 'absent', 'yesterday']},
+      {label:'Mention the homework is late', hints:['homework', 'late', 'finish', 'could not finish']},
+      {label:'Ask for one more day', hints:['one more day', 'extra day', 'tomorrow', 'another day', 'more time']},
+      {label:'Apologise politely', hints:['sorry', 'apologise', 'apologies']},
+      {label:'Say when you will finish', hints:['tomorrow', 'by friday', 'i will finish', 'i can send it']}
+    ]
+  },
+  {
+    id: 2,
+    title: 'Email to a hotel',
+    situation: 'You want to stay in London for two nights with one friend next month.',
+    audience: 'a hotel receptionist',
+    type: 'formal',
+    parts: [
+      {label:'Introduce the purpose', hints:['i am writing', 'i would like', 'stay in london', 'book']},
+      {label:'Say the dates / period', hints:['next month', 'on', 'from', 'to', 'two nights']},
+      {label:'Ask for the price', hints:['price', 'cost', 'how much']},
+      {label:'Ask if breakfast is included', hints:['breakfast', 'included']},
+      {label:'Ask for a room for two people', hints:['room for two', 'two people', 'double room']},
+      {label:'Ask for a reply / more information', hints:['please reply', 'let me know', 'hearing from you']}
+    ]
+  },
+  {
+    id: 3,
+    title: 'Email to a friend about a birthday party',
+    situation: 'You want to invite your friend to your birthday party next Saturday.',
+    audience: 'your friend',
+    type: 'informal',
+    parts: [
+      {label:'Invite your friend', hints:['invite', 'come to my party', 'birthday party']},
+      {label:'Say where the party is', hints:['at my house', 'at', 'address', 'in my home']},
+      {label:'Say what time it starts', hints:['starts at', 'at 7', 'at 19:00', 'time']},
+      {label:'Mention food / music / activity', hints:['food', 'music', 'cake', 'games', 'dancing']},
+      {label:'Ask your friend to reply', hints:['reply', 'let me know', 'can you come', 'tell me']},
+      {label:'End in a friendly way', hints:['see you', 'kind regards', 'best wishes', 'hope you can come']}
+    ]
+  },
+  {
+    id: 4,
+    title: 'Email to a sports club',
+    situation: 'You want to join a local sports club and need more information.',
+    audience: 'the sports club office',
+    type: 'formal',
+    parts: [
+      {label:'Introduce yourself', hints:['my name is', 'i am', 'years old']},
+      {label:'Say which sport you like', hints:['football', 'tennis', 'basketball', 'sport', 'like']},
+      {label:'Ask about the schedule', hints:['schedule', 'when', 'days', 'time']},
+      {label:'Ask about the membership cost', hints:['cost', 'price', 'membership']},
+      {label:'Ask how to register', hints:['register', 'join', 'sign up']},
+      {label:'Ask for a reply / more information', hints:['please reply', 'hearing from you', 'let me know']}
+    ]
+  },
+  {
+    id: 5,
+    title: 'Email to a shop about a problem',
+    situation: 'You bought headphones online, but they do not work.',
+    audience: 'customer service',
+    type: 'formal',
+    parts: [
+      {label:'Say what you bought', hints:['headphones', 'i bought', 'online']},
+      {label:'Explain the problem', hints:['do not work', 'broken', 'problem', 'not working']},
+      {label:'Say when you bought it', hints:['last week', 'yesterday', 'on monday', 'date']},
+      {label:'Ask for a replacement', hints:['new product', 'replace', 'replacement']},
+      {label:'Ask for a refund option', hints:['refund', 'money back']},
+      {label:'Add polite request / reply', hints:['please help', 'please reply', 'hearing from you']}
+    ]
+  },
+  {
+    id: 6,
+    title: 'Email to ask for volunteer work',
+    situation: 'You want to help at an animal shelter during the summer holiday.',
+    audience: 'the animal shelter manager',
+    type: 'formal',
+    parts: [
+      {label:'Introduce yourself', hints:['my name is', 'i am']},
+      {label:'Say when you are available', hints:['summer', 'holiday', 'available', 'july', 'august']},
+      {label:'Say why you want to help', hints:['i like animals', 'i want to help', 'because']},
+      {label:'Ask what volunteers can do', hints:['what can volunteers do', 'jobs', 'tasks']},
+      {label:'Ask how to apply', hints:['apply', 'register', 'join', 'become a volunteer']},
+      {label:'Ask for a reply', hints:['please reply', 'hearing from you', 'let me know']}
+    ]
+  }
+];
 
-{
-title:"Email to hotel",
-situation:"You want to stay in London.",
-points:["Introduce yourself","Say dates","Ask price","Ask breakfast","Room for two","End politely"]
-},
+const commonSpelling = [
+  ['becaus','because'],
+  ['enviroment','environment'],
+  ['definately','definitely'],
+  ['seperate','separate'],
+  ['recieve','receive'],
+  ['wich','which'],
+  ['freind','friend'],
+  ['teh','the'],
+  ['adress','address'],
+  ['langauge','language'],
+  ['thier','their'],
+  ['dont',"don't"],
+  ['cant',"can't"],
+  ['woud','would'],
+  ['becouse','because']
+];
 
-{
-title:"Birthday invitation",
-situation:"Invite a friend to your birthday.",
-points:["Invite friend","Where party","Start time","Mention food","Ask reply","End politely"]
-},
+const grammarPatterns = [
+  {test:/\\bi am agree\\b/i, msg:'Use <em>I agree</em>, not <em>I am agree</em>.'},
+  {test:/\\bI have \\d+ years\\b/i, msg:'For age, write <em>I am ... years old</em>.'},
+  {test:/\\bcan to\\b/i, msg:'After <em>can</em>, use the verb without <em>to</em>.'},
+  {test:/\\bmore easier\\b/i, msg:'Use <em>easier</em>, not <em>more easier</em>.'},
+  {test:/\\bhe don\\'t\\b|\\bshe don\\'t\\b/i, msg:'Write <em>he doesn\\'t</em> or <em>she doesn\\'t</em>.'},
+  {test:/\\bi look forward to hear from you\\b/i, msg:'Better: <em>I look forward to hearing from you</em>.'},
+  {test:/\\binfo\\b/i, msg:'In a formal email, <em>information</em> is often better than <em>info</em>.'}
+];
 
-{
-title:"Sports club information",
-situation:"You want to join a sports club.",
-points:["Introduce yourself","Mention sport","Ask schedule","Ask cost","Ask how to join","End politely"]
-},
+let currentTask = null;
+let currentResult = null;
 
-{
-title:"Complaint about headphones",
-situation:"You bought headphones that do not work.",
-points:["Mention product","Explain problem","Purchase date","Ask replacement","Ask refund","End politely"]
-},
+const startBtn = document.getElementById('startBtn');
+const feedbackBtn = document.getElementById('feedbackBtn');
+const sendBtn = document.getElementById('sendBtn');
 
-{
-title:"Volunteer at animal shelter",
-situation:"You want to volunteer.",
-points:["Introduce yourself","Say availability","Explain motivation","Ask volunteer tasks","Ask application process","End politely"]
+function chooseTask(mode){
+  if(mode === 'rotation'){
+    const index = Number(localStorage.getItem('emailTaskRotationIndex') || '0');
+    const task = tasks[index % tasks.length];
+    localStorage.setItem('emailTaskRotationIndex', String((index + 1) % tasks.length));
+    return task;
+  }
+  return tasks[Math.floor(Math.random() * tasks.length)];
 }
-]
 
-let currentTask=null
-
-function start(){
-const r=Math.floor(Math.random()*tasks.length)
-currentTask=tasks[r]
-
-document.getElementById("exercise").style.display="block"
-document.getElementById("title").innerText=currentTask.title
-document.getElementById("situation").innerText=currentTask.situation
-
-let html=""
-currentTask.points.forEach(p=>html+="<li>"+p+"</li>")
-
-document.getElementById("points").innerHTML=html
+function renderTask(task){
+  currentTask = task;
+  document.getElementById('taskTitle').textContent = task.title;
+  document.getElementById('taskSituation').textContent = task.situation;
+  document.getElementById('taskAudience').textContent = task.audience;
+  document.getElementById('taskType').textContent = task.type;
+  document.getElementById('taskChecklist').innerHTML = task.parts.map((p, i) => `<li><strong>${i+1}.</strong> ${p.label}</li>`).join('');
 }
 
-function checkGreeting(text){
-if(text.match(/Dear\s+(Mr\.|Mrs\.|Sir|Madam|[A-Z][a-z]+)/))
-return "Greeting looks correct."
-else
-return "Use a correct greeting: Dear Mr. Smith, Dear Mrs. Smith, or Dear Sir/Madam,"
+function getStudent(){
+  return {
+    name: document.getElementById('studentName').value.trim(),
+    email: document.getElementById('studentEmail').value.trim(),
+    text: document.getElementById('emailText').value.trim(),
+    selectedFormality: document.getElementById('formality').value
+  };
 }
 
-function checkCapitalI(text){
-if(text.match(/\bi\b/))
-return "The word 'I' must always be written with a capital letter."
-return "Capital I usage looks correct."
+function countWords(text){
+  return text.trim() ? text.trim().split(/\\s+/).length : 0;
 }
 
-function checkSentenceCaps(text){
-const sentences=text.split(/[.!?]/)
-let errors=0
-sentences.forEach(s=>{
-let t=s.trim()
-if(t.length>0 && t[0]===t[0].toLowerCase())
-errors++
-})
-
-if(errors>0)
-return "Some sentences do not start with a capital letter."
-else
-return "Sentence capitalization looks good."
+function lineArray(text){
+  return text.split(/\\n+/).map(x => x.trim()).filter(Boolean);
 }
 
-function checkClosing(text){
-if(text.match(/look forward to hearing from you/i))
-return "Good closing sentence."
-else
-return "Add a closing sentence like: I look forward to hearing from you."
+function detectGreeting(text, expectedFormality){
+  const firstLine = lineArray(text)[0] || '';
+  const formalKnown = /^dear\\s+(mr\\.?|mrs\\.?|ms\\.?|miss)\\s+[A-Z][A-Za-z'-]+,?$/i.test(firstLine);
+  const formalUnknown = /^dear\\s+sir\\s*\\/\\s*madam,?$/i.test(firstLine) || /^dear\\s+sir\\s+or\\s+madam,?$/i.test(firstLine);
+  const informal = /^(hi|hello|dear)\\s+[A-Z]?[A-Za-z'-]+,?$/i.test(firstLine);
+
+  if(expectedFormality === 'formal'){
+    if(formalKnown || formalUnknown){
+      return {score:2, status:'ok', message:'Good formal greeting.'};
+    }
+    if(informal){
+      return {score:1, status:'warn', message:'Greeting exists, but for a formal email use <em>Dear Mr./Mrs. + surname</em> or <em>Dear Sir/Madam,</em>.'};
+    }
+    return {score:0, status:'bad', message:'Missing or weak greeting. Use <em>Dear Mr Brown,</em>, <em>Dear Mrs Brown,</em> or <em>Dear Sir/Madam,</em>.'};
+  }
+
+  if(informal){
+    return {score:2, status:'ok', message:'Good greeting for an informal email.'};
+  }
+  if(formalKnown || formalUnknown){
+    return {score:1, status:'warn', message:'This greeting is correct, but it sounds more formal than needed.'};
+  }
+  return {score:0, status:'bad', message:'Start with a greeting such as <em>Hi Tom,</em> or <em>Hello Sara,</em>.'};
 }
 
-function checkSignature(text){
-if(text.match(/kind regards|yours sincerely|yours faithfully/i))
-return "Email sign-off looks correct."
-else
-return "Add a sign-off: Kind regards / Yours sincerely / Yours faithfully."
+function detectCapitalI(text){
+  const bad = text.match(/(^|[^A-Za-z])i([^A-Za-z]|$)/g) || [];
+  if(bad.length === 0){
+    return {score:2, status:'ok', message:'Capital letter <em>I</em> is used correctly.'};
+  }
+  return {score:Math.max(0, 2 - Math.min(2, bad.length)), status:'warn', message:`The word <em>I</em> should always be a capital letter. I found ${bad.length} possible mistake(s).`};
 }
 
-function checkPoints(text){
-let count=0
+function detectSentenceMechanics(text){
+  const sentences = text.split(/(?<=[.!?])\\s+/).filter(Boolean);
+  let capErrors = 0;
+  let endErrors = 0;
+  sentences.forEach(s => {
+    const trimmed = s.trim();
+    if(!trimmed) return;
+    const firstLetterMatch = trimmed.match(/[A-Za-z]/);
+    const firstLetter = firstLetterMatch ? firstLetterMatch[0] : '';
+    if(firstLetter && firstLetter === firstLetter.toLowerCase()) capErrors++;
+    if(!/[.!?]$/.test(trimmed)) endErrors++;
+  });
 
-currentTask.points.forEach(p=>{
-let key=p.split(" ")[0].toLowerCase()
-if(text.toLowerCase().includes(key)) count++
-})
+  let score = 4;
+  let notes = [];
+  if(capErrors > 0){
+    score -= Math.min(2, capErrors);
+    notes.push(`Some sentences do not start with a capital letter (${capErrors}).`);
+  } else {
+    notes.push('Sentence openings look good.');
+  }
+  if(endErrors > 0){
+    score -= Math.min(2, endErrors);
+    notes.push(`Some sentences may be missing a full stop, question mark or exclamation mark (${endErrors}).`);
+  } else {
+    notes.push('Sentence endings look good.');
+  }
 
-let ratio=count/currentTask.points.length
-
-if(ratio>=0.8)
-return "You covered enough task points."
-else
-return "Your email does not include enough of the required content points."
+  return {
+    score: Math.max(0, score),
+    status: score >= 3 ? 'ok' : (score >= 2 ? 'warn' : 'bad'),
+    message: notes.join(' ')
+  };
 }
 
-function checkEmail(){
-const text=document.getElementById("text").value
-
-let feedback=""
-
-feedback+="<b>Greeting:</b> "+checkGreeting(text)+"<br><br>"
-feedback+="<b>Capital I:</b> "+checkCapitalI(text)+"<br><br>"
-feedback+="<b>Sentence capitals:</b> "+checkSentenceCaps(text)+"<br><br>"
-feedback+="<b>Content coverage:</b> "+checkPoints(text)+"<br><br>"
-feedback+="<b>Closing sentence:</b> "+checkClosing(text)+"<br><br>"
-feedback+="<b>Sign-off:</b> "+checkSignature(text)+"<br><br>"
-
-document.getElementById("feedback").innerHTML=feedback
+function detectClosingSentence(text){
+  const patterns = [
+    /i look forward to hearing from you/i,
+    /i hope to hear from you soon/i,
+    /please reply soon/i,
+    /i hope you can reply soon/i
+  ];
+  const found = patterns.some(r => r.test(text));
+  if(found){
+    return {score:2, status:'ok', message:'Good closing sentence before the final sign-off.'};
+  }
+  return {score:0, status:'bad', message:'Add a closing sentence such as <em>I look forward to hearing from you soon.</em>'};
 }
 
+function detectSignoff(text, expectedFormality){
+  const lower = text.toLowerCase();
+  const hasFaithfully = /yours faithfully/.test(lower);
+  const hasSincerely = /yours sincerely/.test(lower);
+  const hasKindRegards = /kind regards/.test(lower);
+  const hasRegards = /best regards|regards|best wishes|see you/.test(lower);
+
+  if(expectedFormality === 'formal'){
+    if(hasFaithfully || hasSincerely){
+      return {score:2, status:'ok', message:'Appropriate formal sign-off.'};
+    }
+    if(hasKindRegards || hasRegards){
+      return {score:1, status:'warn', message:'The sign-off exists, but for a formal email <em>Yours faithfully</em> or <em>Yours sincerely</em> is stronger.'};
+    }
+    return {score:0, status:'bad', message:'Add a final sign-off such as <em>Yours faithfully</em> or <em>Yours sincerely</em>.'};
+  }
+
+  if(hasKindRegards || hasRegards){
+    return {score:2, status:'ok', message:'Appropriate sign-off for an informal email.'};
+  }
+  if(hasFaithfully || hasSincerely){
+    return {score:1, status:'warn', message:'This is correct, but it sounds more formal than needed.'};
+  }
+  return {score:0, status:'bad', message:'Add a final sign-off such as <em>Kind regards</em> or <em>Best wishes</em>.'};
+}
+
+function detectLength(text){
+  const words = countWords(text);
+  if(words >= 60 && words <= 170){
+    return {score:2, status:'ok', message:`Good length: ${words} words.`};
+  }
+  if(words >= 45 && words < 60){
+    return {score:1, status:'warn', message:`A bit short: ${words} words. Try to develop your ideas more.`};
+  }
+  if(words > 170){
+    return {score:1, status:'warn', message:`A bit long: ${words} words. Keep it concise and focused.`};
+  }
+  return {score:0, status:'bad', message:`Too short: ${words} words. Write a fuller email.`};
+}
+
+function detectContentCoverage(text, task){
+  const lower = text.toLowerCase();
+  const partResults = task.parts.map(part => {
+    const hit = part.hints.some(h => lower.includes(h.toLowerCase()));
+    return {label: part.label, hit};
+  });
+  const hits = partResults.filter(x => x.hit).length;
+  const score = hits;
+  const missing = partResults.filter(x => !x.hit).map(x => x.label);
+
+  let message = `${hits}/6 required parts detected.`;
+  if(hits >= 5){
+    message += ' Good: this meets the 80% rule.';
+  } else {
+    message += ' This does not yet meet the 80% rule.';
+  }
+  if(missing.length){
+    message += ' Missing or unclear: ' + missing.join('; ') + '.';
+  }
+
+  return {
+    score,
+    status: hits >= 5 ? 'ok' : (hits >= 4 ? 'warn' : 'bad'),
+    message,
+    hits,
+    missing
+  };
+}
+
+function detectSpellingAndGrammar(text){
+  const spellingNotes = [];
+  commonSpelling.forEach(([wrong, right]) => {
+    const regex = new RegExp(`\\\\b${wrong}\\\\b`, 'gi');
+    const matches = text.match(regex);
+    if(matches){
+      spellingNotes.push(`Possible spelling: <em>${wrong}</em> → <em>${right}</em> (${matches.length}x).`);
+    }
+  });
+
+  const grammarNotes = [];
+  grammarPatterns.forEach(item => {
+    if(item.test.test(text)){
+      grammarNotes.push(item.msg);
+    }
+  });
+
+  const issues = [...spellingNotes, ...grammarNotes];
+  let score = 2;
+  if(issues.length >= 2) score = 1;
+  if(issues.length >= 4) score = 0;
+
+  return {
+    score,
+    status: issues.length === 0 ? 'ok' : (issues.length <= 3 ? 'warn' : 'bad'),
+    message: issues.length === 0 ? 'No common spelling or grammar problems were detected by the local checker.' : `Detected ${issues.length} possible issue(s).`,
+    issues
+  };
+}
+
+function statusLabel(status){
+  if(status === 'ok') return '<span class="ok">Good</span>';
+  if(status === 'warn') return '<span class="warn">Needs work</span>';
+  return '<span class="bad">Problem</span>';
+}
+
+function buildLocalResult(task, text, formality){
+  const greeting = detectGreeting(text, formality);
+  const content = detectContentCoverage(text, task);
+  const mechanics = detectSentenceMechanics(text);
+  const capitalI = detectCapitalI(text);
+  const closingSentence = detectClosingSentence(text);
+  const signoff = detectSignoff(text, formality);
+  const length = detectLength(text);
+  const spellingGrammar = detectSpellingAndGrammar(text);
+
+  const rubric = [
+    {part:'Greeting / salutation', max:2, ...greeting},
+    {part:'Required content points', max:6, ...content},
+    {part:'Capital letters and punctuation', max:4, ...mechanics},
+    {part:'Capital letter I', max:2, ...capitalI},
+    {part:'Closing sentence', max:2, ...closingSentence},
+    {part:'Final sign-off', max:2, ...signoff},
+    {part:'Length and focus', max:2, ...length},
+    {part:'Common spelling / grammar', max:2, ...spellingGrammar}
+  ];
+
+  const total = rubric.reduce((sum, row) => sum + row.score, 0);
+  const summary = total >= 16
+    ? 'Strong email for A2-B1. The structure is clear and the message is mostly effective.'
+    : total >= 12
+    ? 'Reasonable email, but a few important points still need correction.'
+    : 'This draft needs improvement. Focus on structure, content coverage and formal conventions.';
+
+  return {
+    total,
+    rubric,
+    summary,
+    issues: spellingGrammar.issues,
+    contentMissing: content.missing
+  };
+}
+
+async function maybeGetAIFeedback(task, text, formality, localResult){
+  if(!AI_ENDPOINT) return null;
+  try{
+    const response = await fetch(AI_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        task,
+        student_text: text,
+        expected_formality: formality,
+        local_result: localResult
+      })
+    });
+    if(!response.ok) throw new Error('AI endpoint failed');
+    return await response.json();
+  }catch(err){
+    return { error: true, message: 'AI feedback could not be loaded.' };
+  }
+}
+
+function renderResult(result, aiFeedback){
+  currentResult = { result, aiFeedback };
+  document.getElementById('scoreLine').textContent = `${result.total}/20`;
+  document.getElementById('feedbackSummary').innerHTML = `<p>${result.summary}</p>`;
+
+  document.getElementById('rubricBody').innerHTML = result.rubric.map(row => `
+    <tr>
+      <td>${row.part}<br>${statusLabel(row.status)}</td>
+      <td>${row.score}/${row.max}</td>
+      <td>${row.message}</td>
+    </tr>
+  `).join('');
+
+  const issues = [];
+  if(result.issues.length){
+    issues.push('<strong>Spelling / grammar</strong><ul>' + result.issues.map(x => `<li>${x}</li>`).join('') + '</ul>');
+  }
+  if(result.contentMissing.length){
+    issues.push('<strong>Missing content points</strong><ul>' + result.contentMissing.map(x => `<li>${x}</li>`).join('') + '</ul>');
+  }
+  if(!issues.length){
+    issues.push('<p>No urgent issues detected by the local checker.</p>');
+  }
+  document.getElementById('issuesBox').innerHTML = issues.join('');
+
+  const aiSection = document.getElementById('aiSection');
+  const aiBox = document.getElementById('aiFeedbackBox');
+  if(aiFeedback && !aiFeedback.error){
+    aiSection.classList.remove('hidden');
+    aiBox.innerHTML = `
+      <p><strong>Overall AI comment</strong><br>${aiFeedback.overall_comment || ''}</p>
+      <p><strong>Best parts</strong></p>
+      <ul>${(aiFeedback.strengths || []).map(x => `<li>${x}</li>`).join('')}</ul>
+      <p><strong>Improvements</strong></p>
+      <ul>${(aiFeedback.improvements || []).map(x => `<li>${x}</li>`).join('')}</ul>
+      <p><strong>Suggested corrected version</strong></p>
+      <div class="example">${(aiFeedback.corrected_email || '').replace(/\\n/g,'<br>')}</div>
+    `;
+  } else if(aiFeedback && aiFeedback.error){
+    aiSection.classList.remove('hidden');
+    aiBox.innerHTML = `<p class="warn">${aiFeedback.message || 'AI feedback unavailable.'}</p>`;
+  } else {
+    aiSection.classList.add('hidden');
+    aiBox.innerHTML = '';
+  }
+
+  document.getElementById('feedbackSection').classList.remove('hidden');
+  document.getElementById('sendStatus').classList.add('hidden');
+}
+
+startBtn.addEventListener('click', () => {
+  const student = getStudent();
+  if(!student.name || !student.email){
+    alert('Vul eerst naam en e-mailadres in.');
+    return;
+  }
+  const mode = document.getElementById('taskMode').value;
+  const task = chooseTask(mode);
+  renderTask(task);
+  document.getElementById('welcomeLine').textContent = `Student: ${student.name} • Suggested style: ${student.selectedFormality}`;
+  document.getElementById('loginCard').classList.add('hidden');
+  document.getElementById('exerciseCard').classList.remove('hidden');
+});
+
+feedbackBtn.addEventListener('click', async () => {
+  const student = getStudent();
+  if(!student.text){
+    alert('Schrijf eerst een e-mail.');
+    return;
+  }
+  const localResult = buildLocalResult(currentTask, student.text, student.selectedFormality);
+  const aiFeedback = await maybeGetAIFeedback(currentTask, student.text, student.selectedFormality, localResult);
+  renderResult(localResult, aiFeedback);
+});
+
+sendBtn.addEventListener('click', async () => {
+  const student = getStudent();
+  if(!student.text){
+    alert('Schrijf eerst een e-mail.');
+    return;
+  }
+  if(!currentResult){
+    const localResult = buildLocalResult(currentTask, student.text, student.selectedFormality);
+    const aiFeedback = await maybeGetAIFeedback(currentTask, student.text, student.selectedFormality, localResult);
+    renderResult(localResult, aiFeedback);
+  }
+
+  const sendStatus = document.getElementById('sendStatus');
+  sendStatus.classList.remove('hidden');
+
+  if(!MAIL_ENDPOINT){
+    sendStatus.innerHTML = `
+      <strong class="warn">Nog niet verzonden.</strong><br>
+      Vul eerst een waarde in bij <code>MAIL_ENDPOINT</code>.
+      Daarna kan deze knop studenttekst, punten en feedback mailen naar <code>${TEACHER_EMAIL}</code>.
+    `;
+    return;
+  }
+
+  const payload = {
+    teacher_email: TEACHER_EMAIL,
+    student_name: student.name,
+    student_email: student.email,
+    assignment_title: currentTask.title,
+    situation: currentTask.situation,
+    audience: currentTask.audience,
+    expected_formality: student.selectedFormality,
+    required_parts: currentTask.parts.map(p => p.label),
+    student_text: student.text,
+    local_score: currentResult.result.total,
+    local_rubric: currentResult.result.rubric,
+    local_summary: currentResult.result.summary,
+    ai_feedback: currentResult.aiFeedback || null,
+    submitted_at: new Date().toLocaleString(),
+    source: 'GitHub Pages AI Feedback Email Writing Practice'
+  };
+
+  try{
+    const response = await fetch(MAIL_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!response.ok) throw new Error('Mail endpoint failed');
+    sendStatus.innerHTML = `<strong class="ok">Verzonden.</strong><br>Resultaat doorgestuurd naar <code>${TEACHER_EMAIL}</code>.`;
+  }catch(err){
+    sendStatus.innerHTML = `<strong class="bad">Verzenden is mislukt.</strong><br>Controleer jouw <code>MAIL_ENDPOINT</code>.`;
+  }
+});
 </script>
-
 </body>
 </html>
