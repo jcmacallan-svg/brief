@@ -1,36 +1,27 @@
-# English Email Writing Practice v2
+# English Email Writing Practice v4
 
 Docentmail: `h.blankestijn@roca12.nl`
 
-## Verbeteringen in versie 2
-- syntaxfout opgelost
-- stabielere JavaScript-code
-- duidelijkere rubric /20
-- betere feedback op:
-  - greeting
-  - inhoudsdekking
-  - hoofdletters
-  - interpunctie
-  - hoofdletter I
-  - closing sentence
-  - sign-off
-  - veelgemaakte spelling- en grammaticafouten
-- optionele AI-feedback
-- optioneel mailen naar de docent
+## Nieuw in versie 4
+- het schrijfscherm lijkt meer op een echt mailvenster
+- aparte velden voor From, To en Subject
+- uitgebreidere scenario-schetsen
+- 8 verplichte punten per taak
+- score op /28
+- mailfunctie met zichtbare fallback:
+  - zonder endpoint opent een kant-en-klare e-mail
+  - met endpoint wordt automatisch verzonden
 
 ## Bestanden
 - `index.html`
 - `google-apps-script-mail.js`
-- `openai-ai-proxy-template.js`
 - `README.md`
 - `.nojekyll`
 
-## Gebruik
-1. Upload alle bestanden naar je GitHub-repository.
-2. Zet GitHub Pages aan.
-3. Test lokaal of online.
-4. Vul later eventueel `MAIL_ENDPOINT` en `AI_ENDPOINT` in in `index.html`.
-
-## Let op
-Deze versie werkt direct zonder AI-endpoint.
-De AI-sectie blijft verborgen zolang `AI_ENDPOINT` leeg is.
+## Automatisch versturen aanzetten
+1. Open `google-apps-script-mail.js`
+2. Plaats de code in een nieuw Google Apps Script-project
+3. Deploy als Web App
+4. Kopieer de Web App URL
+5. Zet die URL in `index.html` bij:
+   `const MAIL_ENDPOINT = "";`
